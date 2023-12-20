@@ -1,0 +1,32 @@
+# GitHub Actions workflow for running tests
+# .github/workflows/tests.yml
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        pip install -r quote_gen/requirements.txt
+        pip install -r quote_disp/requirements.txt
+
+    - name: Run quote_gen tests
+      run: pytest quote_gen/tests/
+
+    - name: Run quote_disp tests
+      run: pytest quote_disp/tests/
